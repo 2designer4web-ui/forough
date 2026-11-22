@@ -24,12 +24,16 @@ document.title = content.brand + translate(' | استودیو طراحی و تو
 const strokes = document.createElement('div');
 strokes.className = 'hero-strokes';
 strokes.setAttribute('aria-hidden', 'true');
-for (let index = 0; index < 88; index++) {
-  const column = index % 22;
-  const row = Math.floor(index / 22);
+const strokeColumns = 24;
+const strokeRows = 15;
+for (let index = 0; index < strokeColumns * strokeRows; index++) {
+  const column = index % strokeColumns;
+  const row = Math.floor(index / strokeColumns);
   const stroke = document.createElement('span');
-  stroke.style.setProperty('--x', (column * 4.5 + (index * 13 % 19) / 10) + '%');
-  stroke.style.setProperty('--y', (row * 24 + 8 + index * 17 % 15) + '%');
+  const x = (column + .15 + (index * 13 % 19) / 29) * 100 / strokeColumns;
+  const y = (row + .18 + (index * 17 % 15) / 23) * 100 / strokeRows;
+  stroke.style.setProperty('--x', x + '%');
+  stroke.style.setProperty('--y', y + '%');
   stroke.style.setProperty('--length', (1.1 + (index * 7 % 16) / 10) + 'vw');
   stroke.style.setProperty('--tilt', (index * 29 % 147 - 73) + 'deg');
   stroke.style.setProperty('--stroke-opacity', .48 + (index * 3 % 8) * .06);
@@ -41,27 +45,37 @@ document.querySelector('.hero-frame').after(strokes);
 
 const allowPointerMotion = matchMedia('(hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference)');
 const hero = strokes.closest('.hero');
+let pushedStrokes = new Set();
+const resetStroke = (stroke) => {
+  stroke.style.removeProperty('--push-x');
+  stroke.style.removeProperty('--push-y');
+};
 hero.addEventListener('pointermove', (event) => {
   if (!allowPointerMotion.matches || event.pointerType !== 'mouse') return;
   const bounds = strokes.getBoundingClientRect();
   const positions = Array.from(strokes.children, (stroke) => ({
     stroke, left: stroke.offsetLeft, top: stroke.offsetTop, width: stroke.offsetWidth
   }));
+  const nearby = new Set();
   for (const { stroke, left, top, width } of positions) {
     if (!width) continue;
     const x = bounds.left + left + width / 2 - event.clientX;
     const y = bounds.top + top - event.clientY;
     const distance = Math.hypot(x, y);
-    const force = Math.max(0, 1 - distance / 100) * 38;
+    if (distance >= 100) continue;
+    const force = (1 - distance / 100) * 38;
+    nearby.add(stroke);
     stroke.style.setProperty('--push-x', (distance ? x / distance * force : 0) + 'px');
     stroke.style.setProperty('--push-y', (distance ? y / distance * force : force) + 'px');
   }
+  for (const stroke of pushedStrokes) {
+    if (!nearby.has(stroke)) resetStroke(stroke);
+  }
+  pushedStrokes = nearby;
 });
 hero.addEventListener('pointerleave', () => {
-  for (const stroke of strokes.children) {
-    stroke.style.removeProperty('--push-x');
-    stroke.style.removeProperty('--push-y');
-  }
+  pushedStrokes.forEach(resetStroke);
+  pushedStrokes.clear();
 });
 
 const teamScene = document.querySelector('.team-scene');
