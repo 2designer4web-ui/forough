@@ -11,8 +11,8 @@ window.studioContent = {
   services: ["طراحی انواع وب‌سایت", "سایت شرکتی و شخصی", "فروشگاه اینترنتی", "طراحی رابط و تجربه کاربری", "توسعهٔ اختصاصی", "سئو و بهینه‌سازی سایت", "پشتیبانی یک‌ساله"],
   steps: ["مشاوره", "برنامه‌ریزی", "طراحی", "توسعه", "پشتیبانی"],
   team: [
-    { name: "مهدی پولادی", role: "سئو، طراحی رابط کاربری و توسعهٔ بک‌اند", image: "assets/mehdi-pouladi.jpg" },
-    { name: "یوسف براتی", role: "طراحی رابط کاربری و توسعهٔ بک‌اند", image: "assets/yousef-barati.jpg" }
+    { name: "مهدی پولادی", role: "سئو، طراحی رابط کاربری و توسعهٔ بک‌اند", image: "assets/mehdi-pouladi-hd.jpg" },
+    { name: "یوسف براتی", role: "طراحی رابط کاربری و توسعهٔ بک‌اند", image: "assets/yousef-barati-hd.jpg" }
   ],
   projects: [
     { name: "صرافی ارز دیجیتال", image: "assets/art-2.jpg", description: "", url: "" },

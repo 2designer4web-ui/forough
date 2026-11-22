@@ -94,8 +94,9 @@ html:lang(en) .belt-group{direction:ltr}
 .team-scene,.people{display:flex;align-items:end;justify-content:center;gap:clamp(.7rem,3vw,2.6rem)}
 .people{flex-wrap:wrap;min-width:0}
 .cubes{width:16%}
-.person-card{width:clamp(8rem,19vw,13rem)}
+.person-card{width:clamp(8rem,19vw,14rem)}
 .portrait{width:100%;aspect-ratio:1.15;object-fit:cover;border-radius:1rem;background:linear-gradient(140deg,#e6d7fd,#c9aadf);display:grid;place-items:center}
+.person-card img{object-position:center 35%;border:1px solid #2a12572b;box-shadow:0 8px 20px #2a125714}
 .portrait svg{width:62%;height:62%;fill:#795aa5}
 .person-card h3{margin-top:.65rem;font-size:1rem}
 .contact{background:radial-gradient(ellipse at 10% 15%,#ffc58c 0 22%,transparent 22.5%),linear-gradient(160deg,#51d6bf 0 21%,#8351de 21% 42%,#32135d 42% 73%,#fa91b2 73%);padding-bottom:3rem;text-align:center}
@@ -148,6 +149,32 @@ input,textarea{min-width:0;padding:.55rem .7rem;border:1px solid #907bb0;border-
 @media(min-width:741px) and (max-width:1000px){
   h1{font-size:clamp(2.4rem,5.25vw,3.3rem)}
   .hero-paper{padding-inline:clamp(6.8rem,15vw,9.3rem)}
+}
+@media(min-width:741px){
+  .team-scene{position:relative;isolation:isolate;padding-block:1.25rem .5rem}
+  .team-scene::before,.team-scene::after{
+    content:"✦";
+    position:absolute;
+    z-index:-1;
+    bottom:1.2rem;
+    display:grid;
+    align-items:start;
+    justify-items:center;
+    width:22%;
+    height:75%;
+    border:1px dashed #6b45a256;
+    border-radius:48% 54% 46% 50%;
+    background:
+      radial-gradient(circle at 22% 54%,#f590b3 0 3px,transparent 4px),
+      radial-gradient(circle at 79% 27%,#8052cc 0 4px,transparent 5px),
+      radial-gradient(ellipse at 55% 70%,#e9d9f9,transparent 65%);
+    color:#603a9b;
+    font-size:clamp(1.3rem,2.6vw,2.3rem);
+    line-height:1;
+    pointer-events:none;
+  }
+  .team-scene::before{left:0;transform:rotate(-15deg)}
+  .team-scene::after{right:0;transform:rotate(15deg) scaleX(-1)}
 }
 @media(max-width:420px){
   .wrap{width:calc(100% - 1.5rem)}
