@@ -37,19 +37,15 @@ h2{font-size:clamp(1.7rem,3.5vw,2.8rem)}
 .hero-paper{position:relative;text-align:center;padding:2rem clamp(8rem,16vw,13rem) 3.75rem;animation:arrive .65s ease-out both}
 .eyebrow{font-weight:800;margin-bottom:.55rem}
 .hero-strokes{position:absolute;inset:0 0 3.55rem;overflow:hidden;pointer-events:none}
-.hero-strokes span{
+.hero-strokes span,.team-squares span{
   position:absolute;
   left:var(--x);
   top:var(--y);
-  width:clamp(9px,var(--length),38px);
-  height:2px;
-  border-radius:100%;
-  background:#fff;
-  opacity:var(--stroke-opacity);
   transform:translate(var(--push-x,0px),var(--push-y,0px)) rotate(var(--tilt));
   animation:stroke-drift var(--drift-duration) ease-in-out var(--drift-delay) infinite alternate;
   transition:transform .25s ease-out;
 }
+.hero-strokes span{width:clamp(9px,var(--length),38px);height:2px;border-radius:100%;background:#fff;opacity:var(--stroke-opacity)}
 .hero-description{max-width:31rem;margin:1rem auto 0;font-weight:600}
 .actions{display:flex;justify-content:center;gap:.65rem;margin-top:1.4rem;flex-wrap:wrap}
 .hero-art{position:absolute;pointer-events:none;animation:float 5s ease-in-out infinite}
@@ -104,7 +100,20 @@ html:lang(en) .belt-group{direction:ltr}
 .steps li + li{margin-top:.6rem}
 .steps span{font:800 2rem Arial,sans-serif;min-width:3rem}
 .steps h3{font-size:1.12rem}.steps p{margin-top:.25rem}
-.team{padding:2.2rem 0 3.8rem}
+.team{padding:2.2rem 0 1.2rem}
+.team-squares{position:relative;height:clamp(5.25rem,9vw,8rem);margin:.5rem auto 0;overflow:hidden}
+.team-squares span{
+  width:var(--size);
+  aspect-ratio:1;
+  border:1px solid #5b348d;
+  border-radius:2px;
+  background:#d3b9f7;
+  opacity:.72;
+  pointer-events:none;
+}
+.team-squares span:nth-child(3n){background:#f6a5c0;border-color:#b76f94}
+.team-squares span:nth-child(5n){background:#8052c3;border-color:#4f2b80}
+.team-squares span:nth-child(7n){background:transparent}
 .team-scene,.people{display:flex;align-items:end;justify-content:center;gap:clamp(.7rem,3vw,2.6rem)}
 .people{flex-wrap:wrap;align-items:start;min-width:0}
 .cubes{width:16%;translate:var(--cube-x,0px) var(--cube-y,0px);transition:translate .22s ease-out}
@@ -156,6 +165,7 @@ input,textarea{min-width:0;padding:.55rem .7rem;border:1px solid #907bb0;border-
   .hero-strokes{bottom:3.1rem}
   .hero-strokes span:nth-child(even){display:none}
   .hero-strokes span:nth-child(24n){display:block}
+  .team-squares span:nth-child(even){display:none}
   .hero-paper{padding:1.8rem .75rem clamp(5rem,14vw,7rem)}
   .hero-art{max-width:100px}.person{bottom:-5%;left:0}.plant{right:4%}
   .spark{display:none}

@@ -43,40 +43,65 @@ for (let index = 0; index < strokeColumns * strokeRows; index++) {
 }
 document.querySelector('.hero-frame').after(strokes);
 
+const squares = document.createElement('div');
+squares.className = 'team-squares';
+squares.setAttribute('aria-hidden', 'true');
+const squareColumns = 24;
+const squareRows = 4;
+for (let index = 0; index < squareColumns * squareRows; index++) {
+  const column = index % squareColumns;
+  const row = Math.floor(index / squareColumns);
+  const square = document.createElement('span');
+  const x = (column + .13 + (index * 19 % 17) / 28) * 100 / squareColumns;
+  const y = (row + .1 + (index * 29 % 13) / 31) * 100 / squareRows;
+  square.style.setProperty('--x', x + '%');
+  square.style.setProperty('--y', y + '%');
+  square.style.setProperty('--size', (5 + index * 13 % 17) + 'px');
+  square.style.setProperty('--tilt', (index * 11 % 67 - 33) + 'deg');
+  square.style.setProperty('--drift-duration', (2.2 + index % 8 * .24) + 's');
+  square.style.setProperty('--drift-delay', -(index % 13 * .16) + 's');
+  squares.append(square);
+}
+get('team').append(squares);
+
 const allowPointerMotion = matchMedia('(hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference)');
-const hero = strokes.closest('.hero');
-let pushedStrokes = new Set();
-const resetStroke = (stroke) => {
-  stroke.style.removeProperty('--push-x');
-  stroke.style.removeProperty('--push-y');
-};
-hero.addEventListener('pointermove', (event) => {
-  if (!allowPointerMotion.matches || event.pointerType !== 'mouse') return;
-  const bounds = strokes.getBoundingClientRect();
-  const positions = Array.from(strokes.children, (stroke) => ({
-    stroke, left: stroke.offsetLeft, top: stroke.offsetTop, width: stroke.offsetWidth
-  }));
-  const nearby = new Set();
-  for (const { stroke, left, top, width } of positions) {
-    if (!width) continue;
-    const x = bounds.left + left + width / 2 - event.clientX;
-    const y = bounds.top + top - event.clientY;
-    const distance = Math.hypot(x, y);
-    if (distance >= 100) continue;
-    const force = (1 - distance / 100) * 38;
-    nearby.add(stroke);
-    stroke.style.setProperty('--push-x', (distance ? x / distance * force : 0) + 'px');
-    stroke.style.setProperty('--push-y', (distance ? y / distance * force : force) + 'px');
-  }
-  for (const stroke of pushedStrokes) {
-    if (!nearby.has(stroke)) resetStroke(stroke);
-  }
-  pushedStrokes = nearby;
-});
-hero.addEventListener('pointerleave', () => {
-  pushedStrokes.forEach(resetStroke);
-  pushedStrokes.clear();
-});
+function addPointerRepulsion(field, surface) {
+  let pushed = new Set();
+  const reset = (mark) => {
+    mark.style.removeProperty('--push-x');
+    mark.style.removeProperty('--push-y');
+  };
+  surface.addEventListener('pointermove', (event) => {
+    if (!allowPointerMotion.matches || event.pointerType !== 'mouse') return;
+    const bounds = field.getBoundingClientRect();
+    const positions = Array.from(field.children, (mark) => ({
+      mark, left: mark.offsetLeft, top: mark.offsetTop,
+      width: mark.offsetWidth, height: mark.offsetHeight
+    }));
+    const nearby = new Set();
+    for (const { mark, left, top, width, height } of positions) {
+      if (!width) continue;
+      const x = bounds.left + left + width / 2 - event.clientX;
+      const y = bounds.top + top + height / 2 - event.clientY;
+      const distance = Math.hypot(x, y);
+      if (distance >= 100) continue;
+      const force = (1 - distance / 100) * 38;
+      nearby.add(mark);
+      mark.style.setProperty('--push-x', (distance ? x / distance * force : 0) + 'px');
+      mark.style.setProperty('--push-y', (distance ? y / distance * force : force) + 'px');
+    }
+    for (const mark of pushed) {
+      if (!nearby.has(mark)) reset(mark);
+    }
+    pushed = nearby;
+  });
+  surface.addEventListener('pointerleave', () => {
+    pushed.forEach(reset);
+    pushed.clear();
+  });
+}
+addPointerRepulsion(strokes, strokes.closest('.hero'));
+addPointerRepulsion(squares, squares);
 
 const teamScene = document.querySelector('.team-scene');
 const cubes = teamScene.querySelectorAll('.cubes');
