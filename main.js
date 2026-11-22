@@ -24,36 +24,40 @@ document.title = content.brand + translate(' | استودیو طراحی و تو
 const strokes = document.createElement('div');
 strokes.className = 'hero-strokes';
 strokes.setAttribute('aria-hidden', 'true');
-for (const [x, y, length, tilt] of [
-  [4, 38, 29, -13], [13, 65, 18, 18], [22, 26, 34, 11],
-  [30, 73, 23, -8], [39, 47, 36, -16], [48, 22, 19, 14],
-  [53, 76, 31, 12], [61, 43, 27, -10], [71, 24, 16, 17],
-  [77, 66, 32, -13], [88, 34, 21, 8]
-]) {
+for (let index = 0; index < 88; index++) {
+  const column = index % 22;
+  const row = Math.floor(index / 22);
   const stroke = document.createElement('span');
-  stroke.style.setProperty('--x', x + '%');
-  stroke.style.setProperty('--y', y + '%');
-  stroke.style.setProperty('--length', length + 'px');
-  stroke.style.setProperty('--tilt', tilt + 'deg');
+  stroke.style.setProperty('--x', (column * 4.5 + (index * 13 % 19) / 10) + '%');
+  stroke.style.setProperty('--y', (row * 24 + 8 + index * 17 % 15) + '%');
+  stroke.style.setProperty('--length', (1.1 + (index * 7 % 16) / 10) + 'vw');
+  stroke.style.setProperty('--tilt', (index * 29 % 147 - 73) + 'deg');
+  stroke.style.setProperty('--stroke-opacity', .48 + (index * 3 % 8) * .06);
+  stroke.style.setProperty('--drift-duration', (1.9 + index % 6 * .28) + 's');
+  stroke.style.setProperty('--drift-delay', -(index % 11 * .19) + 's');
   strokes.append(stroke);
 }
-get('tagline').after(strokes);
+document.querySelector('.hero-frame').after(strokes);
 
 const allowPointerMotion = matchMedia('(hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference)');
-const heroPaper = strokes.closest('.hero-paper');
-heroPaper.addEventListener('pointermove', (event) => {
+const hero = strokes.closest('.hero');
+hero.addEventListener('pointermove', (event) => {
   if (!allowPointerMotion.matches || event.pointerType !== 'mouse') return;
   const bounds = strokes.getBoundingClientRect();
-  for (const stroke of strokes.children) {
-    const x = bounds.left + stroke.offsetLeft + stroke.offsetWidth / 2 - event.clientX;
-    const y = bounds.top + stroke.offsetTop - event.clientY;
+  const positions = Array.from(strokes.children, (stroke) => ({
+    stroke, left: stroke.offsetLeft, top: stroke.offsetTop, width: stroke.offsetWidth
+  }));
+  for (const { stroke, left, top, width } of positions) {
+    if (!width) continue;
+    const x = bounds.left + left + width / 2 - event.clientX;
+    const y = bounds.top + top - event.clientY;
     const distance = Math.hypot(x, y);
-    const force = Math.max(0, 1 - distance / 72) * 27;
+    const force = Math.max(0, 1 - distance / 100) * 38;
     stroke.style.setProperty('--push-x', (distance ? x / distance * force : 0) + 'px');
     stroke.style.setProperty('--push-y', (distance ? y / distance * force : force) + 'px');
   }
 });
-heroPaper.addEventListener('pointerleave', () => {
+hero.addEventListener('pointerleave', () => {
   for (const stroke of strokes.children) {
     stroke.style.removeProperty('--push-x');
     stroke.style.removeProperty('--push-y');
