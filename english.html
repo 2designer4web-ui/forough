@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="en" dir="ltr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Forough web design studio, portfolio and project inquiries">
+  <title>Forough | Web Design Studio</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="content.js" defer></script>
+  <script src="main.js" defer></script>
+</head>
+<body>
+  <header class="header" id="home">
+    <div class="wrap nav">
+      <a class="brand" href="#home"><span aria-hidden="true">✦</span> <b data-brand>Forough</b></a>
+      <nav aria-label="Main navigation"><a href="#home">Home</a><a href="#services">Services</a><a href="#work">Portfolio</a><a href="#team">About</a><a href="#contact">Contact</a></nav>
+      <div class="nav-actions"><a class="language" href="index.html" lang="fa" hreflang="fa">فارسی</a><a class="button light" href="#contact">Start a project</a></div>
+    </div>
+  </header>
+  <main>
+    <section class="hero">
+      <div class="hero-frame wrap">
+        <div class="paper hero-paper">
+          <p class="eyebrow" id="tagline">Forough Web Design Studio</p>
+          <h1>We build websites<br>that grow your business</h1>
+          <p class="hero-description" id="intro">From interface design to development and launch, we help you build a professional presence online.</p>
+          <div class="actions"><a class="button" href="#contact">Start a project</a><a class="button outline" href="#work">Explore our work</a></div>
+          <span class="spark one" aria-hidden="true">✧</span><span class="spark two" aria-hidden="true">✦</span>
+          <img class="hero-art person" src="assets/art-9.png" alt="">
+          <img class="hero-art plant" src="assets/art-10.png" alt="">
+        </div>
+      </div>
+      <div id="services" class="ribbon" data-ribbon="services"></div>
+    </section>
+    <section class="work" id="work">
+      <div class="wrap">
+        <h2 class="accent">Selected work</h2>
+        <p class="section-copy">Explore example projects across different industries.</p>
+        <div class="projects" id="projects"></div>
+      </div>
+      <img class="landscape" src="assets/art-11.jpg" alt="" loading="lazy">
+    </section>
+    <section class="process" id="process">
+      <div class="ribbon reverse" data-ribbon="steps"></div>
+      <div class="wrap">
+        <h2>How we work</h2>
+        <ol class="steps">
+          <li class="paper"><span aria-hidden="true">✎</span><div><small>01</small><h3>Discovery and consultation</h3><p>We review your goals and project requirements.</p></div></li>
+          <li class="paper"><span aria-hidden="true">▣</span><div><small>02</small><h3>Design and planning</h3><p>We design the site structure and user interface.</p></div></li>
+          <li class="paper"><span aria-hidden="true">&lt;/&gt;</span><div><small>03</small><h3>Development</h3><p>We turn the design into a responsive website.</p></div></li>
+          <li class="paper"><span aria-hidden="true">⚑</span><div><small>04</small><h3>Launch and support</h3><p>We launch your website and show you how to manage it.</p></div></li>
+        </ol>
+      </div>
+    </section>
+    <section class="team" id="team">
+      <div class="wrap">
+        <h2 class="accent">Meet the Forough team</h2>
+        <p class="section-copy" id="about">[About the team]</p>
+        <div class="team-scene"><img class="cubes" src="assets/art-13.png" alt="" loading="lazy"><div id="people" class="people"></div><img class="cubes" src="assets/art-12.png" alt="" loading="lazy"></div>
+      </div>
+    </section>
+    <section class="contact" id="contact">
+      <div class="ribbon" data-ribbon="services"></div>
+      <div class="paper contact-paper wrap">
+        <h2>Ready to turn your idea into a website?</h2>
+        <p>Tell us a little about your project to get started.</p>
+        <button class="button" id="start" type="button">Work with us</button>
+      </div>
+    </section>
+  </main>
+  <footer>
+    <div class="wrap footer"><a class="brand" href="#home">✦ <b data-brand>Forough</b></a><div id="details"></div></div>
+  </footer>
+  <dialog id="project-dialog" aria-labelledby="project-title"><button class="close" type="button" aria-label="Close">×</button><img id="project-image" alt=""><h2 id="project-title"></h2><p id="project-description"></p><a class="button" id="project-link" hidden>Visit project</a></dialog>
+  <dialog id="contact-dialog" aria-labelledby="contact-title">
+    <button class="close" type="button" aria-label="Close">×</button>
+    <h2 id="contact-title">Project inquiry</h2>
+    <p id="contact-help"></p>
+    <form id="inquiry">
+      <label>Your name<input name="name" autocomplete="name" required></label>
+      <label>Email or phone number<input name="reply" required></label>
+      <label>Project details<textarea name="message" rows="4" required></textarea></label>
+      <button class="button" type="submit" id="submit-inquiry">Prepare inquiry</button>
+      <textarea id="draft" aria-label="Inquiry draft" rows="6" readonly hidden></textarea>
+      <p id="form-status" role="status"></p>
+    </form>
+  </dialog>
+</body>
+</html>

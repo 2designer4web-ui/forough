@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="fa" dir="rtl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="استودیو طراحی و توسعه وب، نمونه‌کارها و مسیر همکاری">
+  <title>فروغ | استودیو طراحی و توسعه وب</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="content.js" defer></script>
+  <script src="main.js" defer></script>
+</head>
+<body>
+  <header class="header" id="home">
+    <div class="wrap nav">
+      <a class="brand" href="#home"><span aria-hidden="true">✦</span> <b data-brand>Forough</b></a>
+      <nav aria-label="منوی اصلی"><a href="#home">خانه</a><a href="#services">خدمات</a><a href="#work">نمونه‌کارها</a><a href="#team">درباره ما</a><a href="#contact">تماس</a></nav>
+      <div class="nav-actions"><a class="language" href="english.html" lang="en" hreflang="en">English</a><a class="button light" href="#contact">شروع پروژه</a></div>
+    </div>
+  </header>
+  <main>
+    <section class="hero">
+      <div class="hero-frame wrap">
+        <div class="paper hero-paper">
+          <p class="eyebrow" id="tagline">استودیو طراحی و توسعه وب [نام شما]</p>
+          <h1>طراحی وب‌سایت‌هایی که<br>کسب‌وکار شما را رشد می‌دهند</h1>
+          <p class="hero-description" id="intro">از طراحی رابط کاربری تا توسعه و راه‌اندازی، به شما کمک می‌کنیم حضوری حرفه‌ای در وب داشته باشید.</p>
+          <div class="actions"><a class="button" href="#contact">شروع پروژه</a><a class="button outline" href="#work">مشاهده نمونه‌کارها</a></div>
+          <span class="spark one" aria-hidden="true">✧</span><span class="spark two" aria-hidden="true">✦</span>
+          <img class="hero-art person" src="assets/art-9.png" alt="">
+          <img class="hero-art plant" src="assets/art-10.png" alt="">
+        </div>
+      </div>
+      <div id="services" class="ribbon" data-ribbon="services"></div>
+    </section>
+    <section class="work" id="work">
+      <div class="wrap">
+        <h2 class="accent">نمونه‌کارهای منتخب ما</h2>
+        <p class="section-copy">پیش‌نمایش پروژه‌هایی که می‌توانید با نمونه‌کارهای خودتان جایگزین کنید.</p>
+        <div class="projects" id="projects"></div>
+      </div>
+      <img class="landscape" src="assets/art-11.jpg" alt="" loading="lazy">
+    </section>
+    <section class="process" id="process">
+      <div class="ribbon reverse" data-ribbon="steps"></div>
+      <div class="wrap">
+        <h2>فرایند همکاری با ما</h2>
+        <ol class="steps">
+          <li class="paper"><span aria-hidden="true">✎</span><div><small>۰۱</small><h3>نیازسنجی و مشاوره</h3><p>هدف‌ها و نیازهای پروژه را مرور می‌کنیم.</p></div></li>
+          <li class="paper"><span aria-hidden="true">▣</span><div><small>۰۲</small><h3>طراحی و برنامه‌ریزی</h3><p>ساختار سایت و رابط کاربری را طراحی می‌کنیم.</p></div></li>
+          <li class="paper"><span aria-hidden="true">&lt;/&gt;</span><div><small>۰۳</small><h3>توسعه و پیاده‌سازی</h3><p>طرح را به یک وب‌سایت واکنش‌گرا تبدیل می‌کنیم.</p></div></li>
+          <li class="paper"><span aria-hidden="true">⚑</span><div><small>۰۴</small><h3>تحویل و پشتیبانی</h3><p>سایت را راه‌اندازی می‌کنیم و شیوه مدیریت آن را توضیح می‌دهیم.</p></div></li>
+        </ol>
+      </div>
+    </section>
+    <section class="team" id="team">
+      <div class="wrap">
+        <h2 class="accent">تیم کوچک، باانگیزه و تخصصی ما</h2>
+        <p class="section-copy" id="about">[معرفی کوتاه تیم و تخصص‌های شما]</p>
+        <div class="team-scene"><img class="cubes" src="assets/art-13.png" alt="" loading="lazy"><div id="people" class="people"></div><img class="cubes" src="assets/art-12.png" alt="" loading="lazy"></div>
+      </div>
+    </section>
+    <section class="contact" id="contact">
+      <div class="ribbon" data-ribbon="services"></div>
+      <div class="paper contact-paper wrap">
+        <h2>ایده‌تان را به یک وب‌سایت واقعی تبدیل کنیم؟</h2>
+        <p>برای شروع، درباره پروژه‌تان بنویسید.</p>
+        <button class="button" id="start" type="button">شروع همکاری</button>
+      </div>
+    </section>
+  </main>
+  <footer>
+    <div class="wrap footer"><a class="brand" href="#home">✦ <b data-brand>Forough</b></a><div id="details"></div></div>
+  </footer>
+  <dialog id="project-dialog" aria-labelledby="project-title"><button class="close" type="button" aria-label="بستن">×</button><img id="project-image" alt=""><h2 id="project-title"></h2><p id="project-description"></p><a class="button" id="project-link" hidden>دیدن سایت پروژه</a></dialog>
+  <dialog id="contact-dialog" aria-labelledby="contact-title">
+    <button class="close" type="button" aria-label="بستن">×</button>
+    <h2 id="contact-title">درخواست همکاری</h2>
+    <p id="contact-help"></p>
+    <form id="inquiry">
+      <label>نام شما<input name="name" autocomplete="name" required></label>
+      <label>ایمیل یا شماره تماس<input name="reply" required></label>
+      <label>توضیح پروژه<textarea name="message" rows="4" required></textarea></label>
+      <button class="button" type="submit" id="submit-inquiry">آماده‌سازی متن درخواست</button>
+      <textarea id="draft" aria-label="متن آماده درخواست" rows="6" readonly hidden></textarea>
+      <p id="form-status" role="status"></p>
+    </form>
+  </dialog>
+</body>
+</html>
