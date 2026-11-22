@@ -21,6 +21,65 @@ for (const field of ['tagline', 'intro', 'about']) {
 }
 document.title = content.brand + translate(' | استودیو طراحی و توسعه وب', ' | Web Design Studio');
 
+const strokes = document.createElement('div');
+strokes.className = 'hero-strokes';
+strokes.setAttribute('aria-hidden', 'true');
+for (const [x, y, length, tilt] of [
+  [4, 38, 29, -13], [13, 65, 18, 18], [22, 26, 34, 11],
+  [30, 73, 23, -8], [39, 47, 36, -16], [48, 22, 19, 14],
+  [53, 76, 31, 12], [61, 43, 27, -10], [71, 24, 16, 17],
+  [77, 66, 32, -13], [88, 34, 21, 8]
+]) {
+  const stroke = document.createElement('span');
+  stroke.style.setProperty('--x', x + '%');
+  stroke.style.setProperty('--y', y + '%');
+  stroke.style.setProperty('--length', length + 'px');
+  stroke.style.setProperty('--tilt', tilt + 'deg');
+  strokes.append(stroke);
+}
+get('tagline').after(strokes);
+
+const allowPointerMotion = matchMedia('(hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference)');
+const heroPaper = strokes.closest('.hero-paper');
+heroPaper.addEventListener('pointermove', (event) => {
+  if (!allowPointerMotion.matches || event.pointerType !== 'mouse') return;
+  const bounds = strokes.getBoundingClientRect();
+  for (const stroke of strokes.children) {
+    const x = bounds.left + stroke.offsetLeft + stroke.offsetWidth / 2 - event.clientX;
+    const y = bounds.top + stroke.offsetTop - event.clientY;
+    const distance = Math.hypot(x, y);
+    const force = Math.max(0, 1 - distance / 72) * 27;
+    stroke.style.setProperty('--push-x', (distance ? x / distance * force : 0) + 'px');
+    stroke.style.setProperty('--push-y', (distance ? y / distance * force : force) + 'px');
+  }
+});
+heroPaper.addEventListener('pointerleave', () => {
+  for (const stroke of strokes.children) {
+    stroke.style.removeProperty('--push-x');
+    stroke.style.removeProperty('--push-y');
+  }
+});
+
+const teamScene = document.querySelector('.team-scene');
+const cubes = teamScene.querySelectorAll('.cubes');
+teamScene.addEventListener('pointermove', (event) => {
+  if (!allowPointerMotion.matches || event.pointerType !== 'mouse') return;
+  const bounds = teamScene.getBoundingClientRect();
+  const x = (event.clientX - bounds.left) / bounds.width - .5;
+  const y = (event.clientY - bounds.top) / bounds.height - .5;
+  cubes.forEach((cube, index) => {
+    const depth = index === 0 ? 30 : 21;
+    cube.style.setProperty('--cube-x', x * depth + 'px');
+    cube.style.setProperty('--cube-y', y * depth + 'px');
+  });
+});
+teamScene.addEventListener('pointerleave', () => {
+  for (const cube of cubes) {
+    cube.style.removeProperty('--cube-x');
+    cube.style.removeProperty('--cube-y');
+  }
+});
+
 for (const ribbon of document.querySelectorAll('[data-ribbon]')) {
   const words = content[ribbon.dataset.ribbon].filter(Boolean);
   if (!words.length) {

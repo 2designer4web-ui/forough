@@ -36,6 +36,20 @@ h2{font-size:clamp(1.7rem,3.5vw,2.8rem)}
 .paper{background:var(--paper);color:var(--ink);border:2px dashed var(--ink);border-radius:2.5rem}
 .hero-paper{position:relative;text-align:center;padding:2rem clamp(8rem,16vw,13rem) 3.75rem;animation:arrive .65s ease-out both}
 .eyebrow{font-weight:800;margin-bottom:.55rem}
+.hero-strokes{position:relative;width:min(100%,19rem);height:1.4rem;margin:-.25rem auto .55rem;pointer-events:none}
+.hero-strokes span{
+  position:absolute;
+  left:var(--x);
+  top:var(--y);
+  width:var(--length);
+  height:2px;
+  border-radius:100%;
+  background:#7246a8;
+  opacity:.68;
+  transform:translate(var(--push-x,0px),var(--push-y,0px)) rotate(var(--tilt));
+  transition:transform .28s ease-out;
+}
+.hero-strokes span:nth-child(3n){background:#dc719e}
 .hero-description{max-width:31rem;margin:1rem auto 0;font-weight:600}
 .actions{display:flex;justify-content:center;gap:.65rem;margin-top:1.4rem;flex-wrap:wrap}
 .hero-art{position:absolute;pointer-events:none;animation:float 5s ease-in-out infinite}
@@ -92,8 +106,8 @@ html:lang(en) .belt-group{direction:ltr}
 .steps h3{font-size:1.12rem}.steps p{margin-top:.25rem}
 .team{padding:2.2rem 0 3.8rem}
 .team-scene,.people{display:flex;align-items:end;justify-content:center;gap:clamp(.7rem,3vw,2.6rem)}
-.people{flex-wrap:wrap;min-width:0}
-.cubes{width:16%}
+.people{flex-wrap:wrap;align-items:start;min-width:0}
+.cubes{width:16%;translate:var(--cube-x,0px) var(--cube-y,0px);transition:translate .22s ease-out}
 .person-card{width:clamp(8rem,19vw,14rem)}
 .portrait{width:100%;aspect-ratio:1.15;object-fit:cover;border-radius:1rem;background:linear-gradient(140deg,#e6d7fd,#c9aadf);display:grid;place-items:center}
 .person-card img{object-position:center 35%;border:1px solid #2a12572b;box-shadow:0 8px 20px #2a125714}
