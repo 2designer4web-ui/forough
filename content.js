@@ -7,7 +7,7 @@ window.studioContent = {
   about: "در فروغ، طراحی و توسعه را با هم پیش می‌بریم. از همان ابتدا جزئیات طرح را با شما مرور می‌کنیم تا نتیجه به چیزی که در ذهن دارید نزدیک باشد و پروژه سریع‌تر به مرحلهٔ راه‌اندازی برسد.",
   email: "2designer4web@gmail.com",
   phone: "09020183244",
-  address: "",
+  address: "مشهد، هفت‌تیر ۲، پلاک ۷۳",
   services: ["طراحی انواع وب‌سایت", "سایت شرکتی و شخصی", "فروشگاه اینترنتی", "طراحی رابط و تجربه کاربری", "توسعهٔ اختصاصی", "سئو و بهینه‌سازی سایت", "پشتیبانی یک‌ساله"],
   steps: ["مشاوره", "برنامه‌ریزی", "طراحی", "توسعه", "پشتیبانی"],
   team: [
@@ -30,7 +30,7 @@ window.studioContent = {
     tagline: "Forough Web Design Studio",
     intro: "We’re Forough, a creative two-person team. Whatever kind of website you need, we build it to match your vision and deliver it as quickly as possible.",
     about: "At Forough, we design and develop your site together. We review the details with you from the start so the finished site matches your vision and is ready to launch sooner.",
-    address: "",
+    address: "No. 73, Haft-e Tir 2, Mashhad",
     services: ["Website design for any project", "Business and personal websites", "Online stores", "UI and UX design", "Custom development", "SEO and website optimization", "One year of support"],
     steps: ["Discovery", "Planning", "Design", "Development", "Support"],
     team: [
