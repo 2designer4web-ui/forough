@@ -11,7 +11,7 @@ window.studioContent = {
   services: ["طراحی انواع وب‌سایت", "سایت شرکتی و شخصی", "فروشگاه اینترنتی", "طراحی رابط و تجربه کاربری", "توسعهٔ اختصاصی", "سئو و بهینه‌سازی سایت", "پشتیبانی یک‌ساله"],
   steps: ["مشاوره", "برنامه‌ریزی", "طراحی", "توسعه", "پشتیبانی"],
   team: [
-    { name: "[نام عضو اول]", role: "[نقش و تخصص]", image: "" },
+    { name: "مهدی پولادی", role: "سئو، طراحی رابط کاربری و توسعهٔ بک‌اند", image: "assets/mehdi-pouladi.jpg" },
     { name: "[نام عضو دوم]", role: "[نقش و تخصص]", image: "" }
   ],
   projects: [
@@ -34,7 +34,7 @@ window.studioContent = {
     services: ["Website design for any project", "Business and personal websites", "Online stores", "UI and UX design", "Custom development", "SEO and website optimization", "One year of support"],
     steps: ["Discovery", "Planning", "Design", "Development", "Support"],
     team: [
-      { name: "[First team member]", role: "[Role and expertise]" },
+      { name: "Mehdi Pouladi", role: "SEO, UI design, and back-end development" },
       { name: "[Second team member]", role: "[Role and expertise]" }
     ],
     projects: [
