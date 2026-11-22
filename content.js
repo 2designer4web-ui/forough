@@ -8,7 +8,7 @@ window.studioContent = {
   email: "",
   phone: "",
   address: "",
-  services: ["طراحی وب‌سایت", "توسعه اختصاصی", "فروشگاه آنلاین", "مشاوره دیجیتال", "تجربه کاربری (UX)"],
+  services: ["طراحی انواع وب‌سایت", "سایت شرکتی و شخصی", "فروشگاه اینترنتی", "طراحی رابط و تجربه کاربری", "توسعهٔ اختصاصی", "سئو و بهینه‌سازی سایت", "پشتیبانی یک‌ساله"],
   steps: ["مشاوره", "برنامه‌ریزی", "طراحی", "توسعه", "پشتیبانی"],
   team: [
     { name: "[نام عضو اول]", role: "[نقش و تخصص]", image: "" },
@@ -31,7 +31,7 @@ window.studioContent = {
     intro: "We’re Forough, a creative two-person team. Whatever kind of website you need, we build it to match your vision and deliver it as quickly as possible.",
     about: "At Forough, we design and develop your site together. We review the details with you from the start so the finished site matches your vision and is ready to launch sooner.",
     address: "",
-    services: ["Web design", "Custom development", "Online stores", "Digital consulting", "User experience"],
+    services: ["Website design for any project", "Business and personal websites", "Online stores", "UI and UX design", "Custom development", "SEO and website optimization", "One year of support"],
     steps: ["Discovery", "Planning", "Design", "Development", "Support"],
     team: [
       { name: "[First team member]", role: "[Role and expertise]" },
