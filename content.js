@@ -3,8 +3,8 @@
 window.studioContent = {
   brand: "فروغ",
   tagline: "استودیو طراحی و توسعه وب فروغ",
-  intro: "از طراحی رابط کاربری تا توسعه و راه‌اندازی، به شما کمک می‌کنیم حضوری حرفه‌ای در وب داشته باشید.",
-  about: "[معرفی کوتاه تیم و تخصص‌های شما]",
+  intro: "ما فروغیم، یک تیم دونفرهٔ خلاق. هر نوع وب‌سایتی که نیاز داشته باشید، مطابق طرحی که در ذهن دارید می‌سازیم و در کوتاه‌ترین زمان ممکن تحویل می‌دهیم.",
+  about: "در فروغ، طراحی و توسعه را با هم پیش می‌بریم. از همان ابتدا جزئیات طرح را با شما مرور می‌کنیم تا نتیجه به چیزی که در ذهن دارید نزدیک باشد و پروژه سریع‌تر به مرحلهٔ راه‌اندازی برسد.",
   email: "",
   phone: "",
   address: "",
@@ -28,8 +28,8 @@ window.studioContent = {
   english: {
     brand: "Forough",
     tagline: "Forough Web Design Studio",
-    intro: "From interface design to development and launch, we help you build a professional presence online.",
-    about: "[About the team]",
+    intro: "We’re Forough, a creative two-person team. Whatever kind of website you need, we build it to match your vision and deliver it as quickly as possible.",
+    about: "At Forough, we design and develop your site together. We review the details with you from the start so the finished site matches your vision and is ready to launch sooner.",
     address: "",
     services: ["Web design", "Custom development", "Online stores", "Digital consulting", "User experience"],
     steps: ["Discovery", "Planning", "Design", "Development", "Support"],
