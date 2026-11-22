@@ -12,7 +12,7 @@ window.studioContent = {
   steps: ["مشاوره", "برنامه‌ریزی", "طراحی", "توسعه", "پشتیبانی"],
   team: [
     { name: "مهدی پولادی", role: "سئو، طراحی رابط کاربری و توسعهٔ بک‌اند", image: "assets/mehdi-pouladi.jpg" },
-    { name: "[نام عضو دوم]", role: "[نقش و تخصص]", image: "" }
+    { name: "یوسف براتی", role: "طراحی رابط کاربری و توسعهٔ بک‌اند", image: "assets/yousef-barati.jpg" }
   ],
   projects: [
     { name: "صرافی ارز دیجیتال", image: "assets/art-2.jpg", description: "", url: "" },
@@ -35,7 +35,7 @@ window.studioContent = {
     steps: ["Discovery", "Planning", "Design", "Development", "Support"],
     team: [
       { name: "Mehdi Pouladi", role: "SEO, UI design, and back-end development" },
-      { name: "[Second team member]", role: "[Role and expertise]" }
+      { name: "Yousef Barati", role: "UI design and back-end development" }
     ],
     projects: [
       "Crypto exchange", "Real estate website", "Audio equipment store", "Education platform",
