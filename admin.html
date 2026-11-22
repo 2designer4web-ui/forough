@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="fa" dir="rtl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex,nofollow">
+  <title>مدیریت فروغ</title>
+  <link rel="stylesheet" href="/admin.css">
+  <script src="/content.js" defer></script>
+  <script src="/admin.js" defer></script>
+</head>
+<body>
+  <header class="top">
+    <a class="brand" href="/">✦ فروغ</a>
+    <div><a href="/">مشاهدهٔ سایت</a><button id="logout" type="button" hidden>خروج</button></div>
+  </header>
+  <main>
+    <section class="login panel" id="login" hidden>
+      <h1>ورود به مدیریت فروغ</h1>
+      <form id="login-form">
+        <label>نام کاربری<input name="username" dir="ltr" maxlength="100" autocomplete="username" required></label>
+        <label>رمز عبور<input name="password" dir="ltr" type="password" maxlength="512" autocomplete="current-password" required></label>
+        <button class="primary" type="submit">ورود</button>
+      </form>
+    </section>
+    <section id="dashboard" hidden>
+      <div class="headline"><h1>مدیریت فروغ</h1><span id="publish-note"></span></div>
+      <nav aria-label="بخش‌های پنل">
+        <button type="button" data-tab="inbox" aria-pressed="true">درخواست‌های همکاری</button>
+        <button type="button" data-tab="editor" aria-pressed="false">محتوای سایت</button>
+      </nav>
+      <section id="inbox" class="panel" aria-labelledby="inbox-title">
+        <div class="headline"><h2 id="inbox-title">درخواست‌های همکاری</h2><button id="refresh" type="button">به‌روزرسانی</button></div>
+        <div id="messages" class="messages"></div>
+        <button id="more" type="button" hidden>پیام‌های قدیمی‌تر</button>
+      </section>
+      <section id="editor" class="panel" aria-labelledby="editor-title" hidden>
+        <div class="headline"><h2 id="editor-title">محتوای سایت</h2><button type="submit" form="editor-form" class="primary" disabled id="publish">انتشار تغییرات</button></div>
+        <form id="editor-form"></form>
+      </section>
+    </section>
+    <p id="notice" role="status" aria-live="polite">در حال بررسی وضعیت پنل…</p>
+  </main>
+</body>
+</html>

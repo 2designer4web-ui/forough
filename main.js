@@ -1,256 +1,329 @@
-const studio = window.studioContent;
-const isEnglish = document.documentElement.lang === 'en';
-const translate = (fa, en) => isEnglish ? en : fa;
-const english = studio.english;
-const content = isEnglish ? {
-  ...studio,
-  ...english,
-  team: studio.team.map((person, index) => ({ ...person, ...english.team[index] })),
-  projects: studio.projects.map((project, index) => ({
-    ...project,
-    name: english.projects[index] || project.name
-  }))
-} : studio;
-const get = (id) => document.getElementById(id);
-
-document.querySelectorAll('[data-brand]').forEach((brand) => {
-  brand.textContent = content.brand;
-});
-for (const field of ['tagline', 'intro', 'about']) {
-  get(field).textContent = content[field];
-}
-document.title = content.brand + translate(' | استودیو طراحی و توسعه وب', ' | Web Design Studio');
-
-const strokes = document.createElement('div');
-strokes.className = 'hero-strokes';
-strokes.setAttribute('aria-hidden', 'true');
-const strokeColumns = 24;
-const strokeRows = 15;
-for (let index = 0; index < strokeColumns * strokeRows; index++) {
-  const column = index % strokeColumns;
-  const row = Math.floor(index / strokeColumns);
-  const stroke = document.createElement('span');
-  const x = (column + .15 + (index * 13 % 19) / 29) * 100 / strokeColumns;
-  const y = (row + .18 + (index * 17 % 15) / 23) * 100 / strokeRows;
-  stroke.style.setProperty('--x', x + '%');
-  stroke.style.setProperty('--y', y + '%');
-  stroke.style.setProperty('--length', (1.1 + (index * 7 % 16) / 10) + 'vw');
-  stroke.style.setProperty('--tilt', (index * 29 % 147 - 73) + 'deg');
-  stroke.style.setProperty('--stroke-opacity', .48 + (index * 3 % 8) * .06);
-  stroke.style.setProperty('--drift-duration', (1.9 + index % 6 * .28) + 's');
-  stroke.style.setProperty('--drift-delay', -(index % 11 * .19) + 's');
-  strokes.append(stroke);
-}
-document.querySelector('.hero-frame').after(strokes);
-
-const squares = document.createElement('div');
-squares.className = 'team-squares';
-squares.setAttribute('aria-hidden', 'true');
-const squareColumns = 24;
-const squareRows = 4;
-for (let index = 0; index < squareColumns * squareRows; index++) {
-  const column = index % squareColumns;
-  const row = Math.floor(index / squareColumns);
-  const square = document.createElement('span');
-  const x = (column + .13 + (index * 19 % 17) / 28) * 100 / squareColumns;
-  const y = (row + .1 + (index * 29 % 13) / 31) * 100 / squareRows;
-  square.style.setProperty('--x', x + '%');
-  square.style.setProperty('--y', y + '%');
-  square.style.setProperty('--size', (5 + index * 13 % 17) + 'px');
-  square.style.setProperty('--tilt', (index * 11 % 67 - 33) + 'deg');
-  square.style.setProperty('--drift-duration', (2.2 + index % 8 * .24) + 's');
-  square.style.setProperty('--drift-delay', -(index % 13 * .16) + 's');
-  squares.append(square);
-}
-get('team').append(squares);
-
-const allowPointerMotion = matchMedia('(hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference)');
-function addPointerRepulsion(field, surface) {
-  let pushed = new Set();
-  const reset = (mark) => {
-    mark.style.removeProperty('--push-x');
-    mark.style.removeProperty('--push-y');
-  };
-  surface.addEventListener('pointermove', (event) => {
-    if (!allowPointerMotion.matches || event.pointerType !== 'mouse') return;
-    const bounds = field.getBoundingClientRect();
-    const positions = Array.from(field.children, (mark) => ({
-      mark, left: mark.offsetLeft, top: mark.offsetTop,
-      width: mark.offsetWidth, height: mark.offsetHeight
-    }));
-    const nearby = new Set();
-    for (const { mark, left, top, width, height } of positions) {
-      if (!width) continue;
-      const x = bounds.left + left + width / 2 - event.clientX;
-      const y = bounds.top + top + height / 2 - event.clientY;
-      const distance = Math.hypot(x, y);
-      if (distance >= 100) continue;
-      const force = (1 - distance / 100) * 38;
-      nearby.add(mark);
-      mark.style.setProperty('--push-x', (distance ? x / distance * force : 0) + 'px');
-      mark.style.setProperty('--push-y', (distance ? y / distance * force : force) + 'px');
-    }
-    for (const mark of pushed) {
-      if (!nearby.has(mark)) reset(mark);
-    }
-    pushed = nearby;
-  });
-  surface.addEventListener('pointerleave', () => {
-    pushed.forEach(reset);
-    pushed.clear();
-  });
-}
-addPointerRepulsion(strokes, strokes.closest('.hero'));
-addPointerRepulsion(squares, squares);
-
-const teamScene = document.querySelector('.team-scene');
-const cubes = teamScene.querySelectorAll('.cubes');
-teamScene.addEventListener('pointermove', (event) => {
-  if (!allowPointerMotion.matches || event.pointerType !== 'mouse') return;
-  const bounds = teamScene.getBoundingClientRect();
-  const x = (event.clientX - bounds.left) / bounds.width - .5;
-  const y = (event.clientY - bounds.top) / bounds.height - .5;
-  cubes.forEach((cube, index) => {
-    const depth = index === 0 ? 30 : 21;
-    cube.style.setProperty('--cube-x', x * depth + 'px');
-    cube.style.setProperty('--cube-y', y * depth + 'px');
-  });
-});
-teamScene.addEventListener('pointerleave', () => {
-  for (const cube of cubes) {
-    cube.style.removeProperty('--cube-x');
-    cube.style.removeProperty('--cube-y');
-  }
-});
-
-for (const ribbon of document.querySelectorAll('[data-ribbon]')) {
-  const words = content[ribbon.dataset.ribbon].filter(Boolean);
-  if (!words.length) {
-    ribbon.hidden = true;
-    continue;
-  }
-  ribbon.setAttribute('aria-label', words.join(translate('، ', ', ')));
-  ribbon.setAttribute('role', 'img');
-  const belt = document.createElement('div');
-  belt.className = 'belt';
-  belt.setAttribute('aria-hidden', 'true');
-  const group = document.createElement('div');
-  group.className = 'belt-group';
-  const addWords = () => {
-    for (const word of words) {
-      const item = document.createElement('span');
-      const star = document.createElement('b');
-      star.textContent = '✦';
-      item.append(word, star);
-      group.append(item);
-    }
-  };
-  addWords();
-  belt.append(group);
-  ribbon.append(belt);
-  const fillBelt = () => {
-    if (ribbon.clientWidth === 0 || group.offsetWidth === 0) return;
-    const previousLength = group.children.length;
-    while (group.offsetWidth < ribbon.clientWidth) addWords();
-    if (belt.children.length === 1 || group.children.length !== previousLength) {
-      belt.replaceChildren(group, group.cloneNode(true));
-    }
-  };
-  fillBelt();
-  new ResizeObserver(fillBelt).observe(ribbon);
-  document.fonts.ready.then(fillBelt);
-}
-
-const projectDialog = get('project-dialog');
-for (const project of content.projects) {
-  const card = document.createElement('button');
-  card.type = 'button';
-  card.className = 'project';
-  card.innerHTML = '<span class="browser" aria-hidden="true"><i></i><i></i><i></i></span><img alt="" loading="lazy"><span></span>';
-  card.querySelector('img').src = project.image;
-  card.lastElementChild.textContent = project.name;
-  card.addEventListener('click', () => {
-    get('project-image').src = project.image;
-    get('project-title').textContent = project.name;
-    get('project-description').textContent = project.description || translate('پیش‌نمایش نمونه. توضیح پروژه پس از دریافت اطلاعات تکمیل می‌شود.', 'Sample preview. Project details will be added later.');
-    const link = get('project-link');
-    link.hidden = !/^https?:\/\//i.test(project.url);
-    if (link.hidden) link.removeAttribute('href');
-    else link.href = project.url;
-    projectDialog.showModal();
-  });
-  get('projects').append(card);
-}
-
-for (const person of content.team) {
-  const card = document.createElement('article');
-  card.className = 'person-card';
-  if (person.image) {
-    const portrait = document.createElement('img');
-    portrait.className = 'portrait';
-    portrait.src = person.image;
-    portrait.alt = person.name;
-    portrait.loading = 'lazy';
-    card.append(portrait);
-  } else {
-    card.innerHTML = '<div class="portrait" aria-hidden="true"><svg viewBox="0 0 100 100"><circle cx="50" cy="31" r="18"/><path d="M13 94v-9a37 37 0 0 1 74 0v9z"/></svg></div>';
-  }
-  const name = document.createElement('h3');
-  const role = document.createElement('p');
-  name.textContent = person.name;
-  role.textContent = person.role;
-  card.append(name, role);
-  get('people').append(card);
-}
-
-for (const [value, label, protocol] of [
-  [content.address, translate('شهر و آدرس استودیو', 'Studio location'), ''],
-  [content.email, translate('ایمیل کاری', 'Business email'), 'mailto:'],
-  [content.phone, translate('شماره تماس', 'Phone number'), 'tel:']
-]) {
-  const item = document.createElement(value && protocol ? 'a' : 'span');
-  item.textContent = value || '[' + label + ']';
-  if (value && protocol) {
-    item.href = protocol + value;
-    item.dir = 'ltr';
-  }
-  get('details').append(item);
-}
-
-const contactDialog = get('contact-dialog');
-get('start').addEventListener('click', () => contactDialog.showModal());
-get('contact-help').textContent = content.email
-  ? translate('پیش‌نویس درخواست در برنامه ایمیل شما باز می‌شود.', 'Your inquiry opens as a draft in your email app.')
-  : translate('پس از تکمیل فرم می‌توانید متن درخواست را کپی کنید. ایمیل استودیو هنوز وارد نشده است.', 'You can copy the completed inquiry. The studio has not added an email address yet.');
-get('submit-inquiry').textContent = content.email
-  ? translate('باز کردن پیش‌نویس ایمیل', 'Open email draft')
-  : translate('آماده‌سازی متن درخواست', 'Prepare inquiry');
-
-get('inquiry').addEventListener('submit', async (event) => {
-  event.preventDefault();
-  const form = new FormData(event.currentTarget);
-  const body = [
-    translate('نام: ', 'Name: ') + form.get('name'),
-    translate('راه تماس: ', 'Contact: ') + form.get('reply'),
-    translate('توضیح پروژه:', 'Project details:'),
-    form.get('message')
-  ].join('\n');
-  if (content.email) {
-    location.href = 'mailto:' + content.email + '?subject=' + encodeURIComponent(translate('درخواست همکاری', 'Project inquiry')) + '&body=' + encodeURIComponent(body);
-    return;
-  }
-  const draft = get('draft');
-  draft.value = body;
-  draft.hidden = false;
+async function loadSite() {
+  if (location.protocol === 'file:') return {};
   try {
-    await navigator.clipboard.writeText(body);
-    get('form-status').textContent = translate('متن درخواست کپی شد.', 'Inquiry copied.');
+    const response = await fetch('/api/site', { signal: AbortSignal.timeout(2800) });
+    if (response.ok && response.headers.get('Content-Type')?.includes('application/json')) {
+      return await response.json();
+    }
   } catch {
-    draft.select();
-    get('form-status').textContent = translate('متن درخواست آماده کپی است.', 'Your inquiry is ready to copy.');
+    // The built-in content remains available if the server is unreachable.
   }
-});
-
-for (const dialog of document.querySelectorAll('dialog')) {
-  dialog.querySelector('.close').addEventListener('click', () => dialog.close());
+  return {};
 }
+
+async function initializeSite() {
+  const published = await loadSite();
+  const studio = published.content || window.studioContent;
+  const isEnglish = document.documentElement.lang === 'en';
+  const translate = (fa, en) => isEnglish ? en : fa;
+  const english = studio.english;
+  const content = isEnglish ? {
+    ...studio,
+    ...english,
+    team: studio.team.map((person, index) => ({
+      ...person,
+      name: english.team[index]?.name || person.name,
+      role: english.team[index]?.role || person.role
+    })),
+    projects: studio.projects.map((project, index) => {
+      const localized = english.projects[index];
+      return {
+        ...project,
+        name: typeof localized === 'string' ? localized || project.name : localized?.name || project.name,
+        description: localized?.description || project.description
+      };
+    })
+  } : studio;
+  const get = (id) => document.getElementById(id);
+
+  document.querySelectorAll('[data-brand]').forEach((brand) => {
+    brand.textContent = content.brand;
+  });
+  for (const field of ['tagline', 'intro', 'about']) {
+    get(field).textContent = content[field];
+  }
+  const editableSections = {
+    headline: '.hero h1', workTitle: '#work h2', workIntro: '#work .section-copy',
+    processTitle: '#process h2', teamTitle: '#team h2', contactTitle: '#contact h2',
+    contactIntro: '.contact-paper > p'
+  };
+  for (const [key, selector] of Object.entries(editableSections)) {
+    if (content.sections?.[key]) document.querySelector(selector).textContent = content.sections[key];
+  }
+  document.querySelectorAll('#process .steps li').forEach((item, index) => {
+    const step = content.process?.[index];
+    if (step?.title) item.querySelector('h3').textContent = step.title;
+    if (step?.description) item.querySelector('p').textContent = step.description;
+  });
+  document.title = content.brand + translate(' | استودیو طراحی و توسعه وب', ' | Web Design Studio');
+
+  const strokes = document.createElement('div');
+  strokes.className = 'hero-strokes';
+  strokes.setAttribute('aria-hidden', 'true');
+  const strokeColumns = 24;
+  const strokeRows = 15;
+  for (let index = 0; index < strokeColumns * strokeRows; index++) {
+    const column = index % strokeColumns;
+    const row = Math.floor(index / strokeColumns);
+    const stroke = document.createElement('span');
+    const x = (column + .15 + (index * 13 % 19) / 29) * 100 / strokeColumns;
+    const y = (row + .18 + (index * 17 % 15) / 23) * 100 / strokeRows;
+    stroke.style.setProperty('--x', x + '%');
+    stroke.style.setProperty('--y', y + '%');
+    stroke.style.setProperty('--length', (1.1 + (index * 7 % 16) / 10) + 'vw');
+    stroke.style.setProperty('--tilt', (index * 29 % 147 - 73) + 'deg');
+    stroke.style.setProperty('--stroke-opacity', .48 + (index * 3 % 8) * .06);
+    stroke.style.setProperty('--drift-duration', (1.9 + index % 6 * .28) + 's');
+    stroke.style.setProperty('--drift-delay', -(index % 11 * .19) + 's');
+    strokes.append(stroke);
+  }
+  document.querySelector('.hero-frame').after(strokes);
+
+  const squares = document.createElement('div');
+  squares.className = 'team-squares';
+  squares.setAttribute('aria-hidden', 'true');
+  const squareColumns = 24;
+  const squareRows = 4;
+  for (let index = 0; index < squareColumns * squareRows; index++) {
+    const column = index % squareColumns;
+    const row = Math.floor(index / squareColumns);
+    const square = document.createElement('span');
+    const x = (column + .13 + (index * 19 % 17) / 28) * 100 / squareColumns;
+    const y = (row + .1 + (index * 29 % 13) / 31) * 100 / squareRows;
+    square.style.setProperty('--x', x + '%');
+    square.style.setProperty('--y', y + '%');
+    square.style.setProperty('--size', (5 + index * 13 % 17) + 'px');
+    square.style.setProperty('--tilt', (index * 11 % 67 - 33) + 'deg');
+    square.style.setProperty('--drift-duration', (2.2 + index % 8 * .24) + 's');
+    square.style.setProperty('--drift-delay', -(index % 13 * .16) + 's');
+    squares.append(square);
+  }
+  get('team').append(squares);
+
+  const allowPointerMotion = matchMedia('(hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference)');
+  function addPointerRepulsion(field, surface) {
+    let pushed = new Set();
+    const reset = (mark) => {
+      mark.style.removeProperty('--push-x');
+      mark.style.removeProperty('--push-y');
+    };
+    surface.addEventListener('pointermove', (event) => {
+      if (!allowPointerMotion.matches || event.pointerType !== 'mouse') return;
+      const bounds = field.getBoundingClientRect();
+      const positions = Array.from(field.children, (mark) => ({
+        mark, left: mark.offsetLeft, top: mark.offsetTop,
+        width: mark.offsetWidth, height: mark.offsetHeight
+      }));
+      const nearby = new Set();
+      for (const { mark, left, top, width, height } of positions) {
+        if (!width) continue;
+        const x = bounds.left + left + width / 2 - event.clientX;
+        const y = bounds.top + top + height / 2 - event.clientY;
+        const distance = Math.hypot(x, y);
+        if (distance >= 100) continue;
+        const force = (1 - distance / 100) * 38;
+        nearby.add(mark);
+        mark.style.setProperty('--push-x', (distance ? x / distance * force : 0) + 'px');
+        mark.style.setProperty('--push-y', (distance ? y / distance * force : force) + 'px');
+      }
+      for (const mark of pushed) {
+        if (!nearby.has(mark)) reset(mark);
+      }
+      pushed = nearby;
+    });
+    surface.addEventListener('pointerleave', () => {
+      pushed.forEach(reset);
+      pushed.clear();
+    });
+  }
+  addPointerRepulsion(strokes, strokes.closest('.hero'));
+  addPointerRepulsion(squares, squares);
+
+  const teamScene = document.querySelector('.team-scene');
+  const cubes = teamScene.querySelectorAll('.cubes');
+  teamScene.addEventListener('pointermove', (event) => {
+    if (!allowPointerMotion.matches || event.pointerType !== 'mouse') return;
+    const bounds = teamScene.getBoundingClientRect();
+    const x = (event.clientX - bounds.left) / bounds.width - .5;
+    const y = (event.clientY - bounds.top) / bounds.height - .5;
+    cubes.forEach((cube, index) => {
+      const depth = index === 0 ? 30 : 21;
+      cube.style.setProperty('--cube-x', x * depth + 'px');
+      cube.style.setProperty('--cube-y', y * depth + 'px');
+    });
+  });
+  teamScene.addEventListener('pointerleave', () => {
+    for (const cube of cubes) {
+      cube.style.removeProperty('--cube-x');
+      cube.style.removeProperty('--cube-y');
+    }
+  });
+
+  for (const ribbon of document.querySelectorAll('[data-ribbon]')) {
+    const words = content[ribbon.dataset.ribbon].filter(Boolean);
+    if (!words.length) {
+      ribbon.hidden = true;
+      continue;
+    }
+    ribbon.setAttribute('aria-label', words.join(translate('، ', ', ')));
+    ribbon.setAttribute('role', 'img');
+    const belt = document.createElement('div');
+    belt.className = 'belt';
+    belt.setAttribute('aria-hidden', 'true');
+    const group = document.createElement('div');
+    group.className = 'belt-group';
+    const addWords = () => {
+      for (const word of words) {
+        const item = document.createElement('span');
+        const star = document.createElement('b');
+        star.textContent = '✦';
+        item.append(word, star);
+        group.append(item);
+      }
+    };
+    addWords();
+    belt.append(group);
+    ribbon.append(belt);
+    const fillBelt = () => {
+      if (ribbon.clientWidth === 0 || group.offsetWidth === 0) return;
+      const previousLength = group.children.length;
+      while (group.offsetWidth < ribbon.clientWidth) addWords();
+      if (belt.children.length === 1 || group.children.length !== previousLength) {
+        belt.replaceChildren(group, group.cloneNode(true));
+      }
+    };
+    fillBelt();
+    new ResizeObserver(fillBelt).observe(ribbon);
+    document.fonts.ready.then(fillBelt);
+  }
+
+  const projectDialog = get('project-dialog');
+  for (const project of content.projects) {
+    const card = document.createElement('button');
+    card.type = 'button';
+    card.className = 'project';
+    card.innerHTML = '<span class="browser" aria-hidden="true"><i></i><i></i><i></i></span><img alt="" loading="lazy"><span></span>';
+    card.querySelector('img').src = project.image;
+    card.lastElementChild.textContent = project.name;
+    card.addEventListener('click', () => {
+      get('project-image').src = project.image;
+      get('project-title').textContent = project.name;
+      get('project-description').textContent = project.description || translate('پیش‌نمایش نمونه. توضیح پروژه پس از دریافت اطلاعات تکمیل می‌شود.', 'Sample preview. Project details will be added later.');
+      const link = get('project-link');
+      link.hidden = !/^https?:\/\//i.test(project.url);
+      if (link.hidden) link.removeAttribute('href');
+      else link.href = project.url;
+      projectDialog.showModal();
+    });
+    get('projects').append(card);
+  }
+
+  for (const person of content.team) {
+    const card = document.createElement('article');
+    card.className = 'person-card';
+    if (person.image) {
+      const portrait = document.createElement('img');
+      portrait.className = 'portrait';
+      portrait.src = person.image;
+      portrait.alt = person.name;
+      portrait.loading = 'lazy';
+      card.append(portrait);
+    } else {
+      card.innerHTML = '<div class="portrait" aria-hidden="true"><svg viewBox="0 0 100 100"><circle cx="50" cy="31" r="18"/><path d="M13 94v-9a37 37 0 0 1 74 0v9z"/></svg></div>';
+    }
+    const name = document.createElement('h3');
+    const role = document.createElement('p');
+    name.textContent = person.name;
+    role.textContent = person.role;
+    card.append(name, role);
+    get('people').append(card);
+  }
+
+  for (const [value, label, protocol] of [
+    [content.address, translate('شهر و آدرس استودیو', 'Studio location'), ''],
+    [content.email, translate('ایمیل کاری', 'Business email'), 'mailto:'],
+    [content.phone, translate('شماره تماس', 'Phone number'), 'tel:']
+  ]) {
+    const item = document.createElement(value && protocol ? 'a' : 'span');
+    item.textContent = value || '[' + label + ']';
+    if (value && protocol) {
+      item.href = protocol + value;
+      item.dir = 'ltr';
+    }
+    get('details').append(item);
+  }
+
+  const contactDialog = get('contact-dialog');
+  get('start').addEventListener('click', () => contactDialog.showModal());
+  get('contact-help').textContent = published.inbox
+    ? translate('درخواست شما برای تیم فروغ ثبت می‌شود. برای پاسخ، یک راه تماس وارد کنید.', 'Your inquiry goes to the Forough team. Include a way for us to contact you.')
+    : content.email
+    ? translate('پیش‌نویس درخواست در برنامه ایمیل شما باز می‌شود.', 'Your inquiry opens as a draft in your email app.')
+    : translate('پس از تکمیل فرم می‌توانید متن درخواست را کپی کنید. ایمیل استودیو هنوز وارد نشده است.', 'You can copy the completed inquiry. The studio has not added an email address yet.');
+  get('submit-inquiry').textContent = published.inbox
+    ? translate('ارسال درخواست', 'Send inquiry')
+    : content.email
+    ? translate('باز کردن پیش‌نویس ایمیل', 'Open email draft')
+    : translate('آماده‌سازی متن درخواست', 'Prepare inquiry');
+
+  let pendingInquiry;
+  get('inquiry').addEventListener('submit', async (event) => {
+    event.preventDefault();
+    const form = new FormData(event.currentTarget);
+    if (published.inbox) {
+      const submit = get('submit-inquiry');
+      const status = get('form-status');
+      const formElement = event.currentTarget;
+      const details = Object.fromEntries(form);
+      const fingerprint = JSON.stringify(details);
+      if (pendingInquiry?.fingerprint !== fingerprint) {
+        pendingInquiry = { fingerprint, requestId: crypto.randomUUID() };
+      }
+      submit.disabled = true;
+      status.textContent = translate('در حال ارسال…', 'Sending…');
+      try {
+        const response = await fetch('/api/inquiries', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ ...details, requestId: pendingInquiry.requestId }),
+          signal: AbortSignal.timeout(10000)
+        });
+        if (!response.ok) throw new Error('Request failed');
+        formElement.reset();
+        pendingInquiry = undefined;
+        status.textContent = translate('درخواست شما ثبت شد. تیم فروغ با شما تماس می‌گیرد.', 'Your inquiry was received. The Forough team will get in touch.');
+      } catch {
+        status.textContent = translate('ارسال تأیید نشد. دوباره تلاش کنید یا از ایمیل بخش تماس استفاده کنید.', 'Delivery could not be confirmed. Try again or use the contact email.');
+      } finally {
+        submit.disabled = false;
+      }
+      return;
+    }
+    const body = [
+      translate('نام: ', 'Name: ') + form.get('name'),
+      translate('راه تماس: ', 'Contact: ') + form.get('reply'),
+      translate('توضیح پروژه:', 'Project details:'),
+      form.get('message')
+    ].join('\n');
+    if (content.email) {
+      location.href = 'mailto:' + content.email + '?subject=' + encodeURIComponent(translate('درخواست همکاری', 'Project inquiry')) + '&body=' + encodeURIComponent(body);
+      return;
+    }
+    const draft = get('draft');
+    draft.value = body;
+    draft.hidden = false;
+    try {
+      await navigator.clipboard.writeText(body);
+      get('form-status').textContent = translate('متن درخواست کپی شد.', 'Inquiry copied.');
+    } catch {
+      draft.select();
+      get('form-status').textContent = translate('متن درخواست آماده کپی است.', 'Your inquiry is ready to copy.');
+    }
+  });
+
+  for (const dialog of document.querySelectorAll('dialog')) {
+    dialog.querySelector('.close').addEventListener('click', () => dialog.close());
+  }
+}
+
+initializeSite();

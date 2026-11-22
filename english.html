@@ -77,9 +77,10 @@
     <h2 id="contact-title">Project inquiry</h2>
     <p id="contact-help"></p>
     <form id="inquiry">
-      <label>Your name<input name="name" autocomplete="name" required></label>
-      <label>Email or phone number<input name="reply" required></label>
-      <label>Project details<textarea name="message" rows="4" required></textarea></label>
+      <label>Your name<input name="name" autocomplete="name" maxlength="100" required></label>
+      <label>Email or phone number<input name="reply" maxlength="180" required></label>
+      <label>Project details<textarea name="message" rows="4" maxlength="2500" required></textarea></label>
+      <label hidden>Website<input name="website" tabindex="-1" autocomplete="off"></label>
       <button class="button" type="submit" id="submit-inquiry">Prepare inquiry</button>
       <textarea id="draft" aria-label="Inquiry draft" rows="6" readonly hidden></textarea>
       <p id="form-status" role="status"></p>

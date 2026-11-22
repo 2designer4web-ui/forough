@@ -77,9 +77,10 @@
     <h2 id="contact-title">درخواست همکاری</h2>
     <p id="contact-help"></p>
     <form id="inquiry">
-      <label>نام شما<input name="name" autocomplete="name" required></label>
-      <label>ایمیل یا شماره تماس<input name="reply" required></label>
-      <label>توضیح پروژه<textarea name="message" rows="4" required></textarea></label>
+      <label>نام شما<input name="name" autocomplete="name" maxlength="100" required></label>
+      <label>ایمیل یا شماره تماس<input name="reply" maxlength="180" required></label>
+      <label>توضیح پروژه<textarea name="message" rows="4" maxlength="2500" required></textarea></label>
+      <label hidden>وب‌سایت<input name="website" tabindex="-1" autocomplete="off"></label>
       <button class="button" type="submit" id="submit-inquiry">آماده‌سازی متن درخواست</button>
       <textarea id="draft" aria-label="متن آماده درخواست" rows="6" readonly hidden></textarea>
       <p id="form-status" role="status"></p>
