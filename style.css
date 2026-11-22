@@ -43,12 +43,12 @@ h2{font-size:clamp(1.7rem,3.5vw,2.8rem)}
 .plant{right:2.5%;bottom:-5%;width:12%;animation-delay:-2s}
 .spark{position:absolute;font-size:2rem;animation:float 4s ease-in-out infinite}
 .spark.one{left:12%;top:13%}.spark.two{right:14%;bottom:12%;animation-delay:-2s}
-.ribbon{position:relative;z-index:2;margin-inline:-3%;overflow:hidden;direction:ltr;transform:rotate(-2.5deg);background:#fffaf8;color:var(--ink);border-block:2px solid var(--ink);font-weight:800;scroll-margin-top:40px}
+.ribbon{position:relative;z-index:2;overflow:hidden;direction:ltr;background:#fffaf8;color:var(--ink);border-block:2px solid var(--ink);font-weight:800;scroll-margin-top:40px}
 .hero .ribbon{position:absolute;inset-inline:0;bottom:.3rem}
 .belt{width:max-content;display:flex;direction:ltr;animation:marquee 34s linear infinite}
 .reverse .belt{animation-direction:reverse;animation-duration:30s}
 .belt-group{display:flex;align-items:center;flex:none;direction:rtl;white-space:nowrap}
-.belt-group span{padding:.48em 1.2em;display:flex;gap:1.25rem;align-items:center;font-size:clamp(1rem,1.15vw,1.15rem)}
+.belt-group span{padding:.65em 1.4em;display:flex;gap:1.4em;align-items:center;font-size:clamp(1rem,1.25vw,1.2rem);line-height:1.4}
 .belt-group b{font-size:1.15em;line-height:1}
 html:lang(en) .belt-group{direction:ltr}
 .ribbon:hover .belt{animation-play-state:paused}
@@ -64,7 +64,7 @@ html:lang(en) .belt-group{direction:ltr}
 .browser i:nth-child(2){background:#ffc36f}.browser i:nth-child(3){background:#aa8ce3}
 .project img{width:100%;aspect-ratio:1.65;object-fit:cover;object-position:center 38%;background:#eaddf2}
 .project span:last-child{display:block;padding:.6em .35em}
-.landscape{width:100%;margin:2.25rem auto 0;max-height:300px;object-fit:fill}
+.landscape{width:min(100%,1500px);height:auto;margin:2.25rem auto 0}
 .process{padding:0 0 3rem;text-align:center}
 .process h2{margin:2.15rem auto 1.5rem}
 .steps{max-width:790px;margin:auto;list-style:none;padding:0;position:relative}
@@ -109,7 +109,6 @@ input,textarea{min-width:0;padding:.55rem .7rem;border:1px solid #907bb0;border-
   .spark{display:none}
   .projects{grid-template-columns:repeat(2,minmax(0,1fr));gap:.85rem}
   .steps li{width:80%}
-  .ribbon{transform:rotate(-1.5deg)}
   .footer,.footer #details{justify-content:center;text-align:center}
 }
 @media(min-width:741px) and (max-width:1000px){
