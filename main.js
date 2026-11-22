@@ -79,27 +79,6 @@ async function initializeSite() {
   }
   document.querySelector('.hero-frame').after(strokes);
 
-  const squares = document.createElement('div');
-  squares.className = 'team-squares';
-  squares.setAttribute('aria-hidden', 'true');
-  const squareColumns = 24;
-  const squareRows = 4;
-  for (let index = 0; index < squareColumns * squareRows; index++) {
-    const column = index % squareColumns;
-    const row = Math.floor(index / squareColumns);
-    const square = document.createElement('span');
-    const x = (column + .13 + (index * 19 % 17) / 28) * 100 / squareColumns;
-    const y = (row + .1 + (index * 29 % 13) / 31) * 100 / squareRows;
-    square.style.setProperty('--x', x + '%');
-    square.style.setProperty('--y', y + '%');
-    square.style.setProperty('--size', (5 + index * 13 % 17) + 'px');
-    square.style.setProperty('--tilt', (index * 11 % 67 - 33) + 'deg');
-    square.style.setProperty('--drift-duration', (2.2 + index % 8 * .24) + 's');
-    square.style.setProperty('--drift-delay', -(index % 13 * .16) + 's');
-    squares.append(square);
-  }
-  get('team').append(squares);
-
   const allowPointerMotion = matchMedia('(hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference)');
   function addPointerRepulsion(field, surface) {
     let pushed = new Set();
@@ -137,7 +116,6 @@ async function initializeSite() {
     });
   }
   addPointerRepulsion(strokes, strokes.closest('.hero'));
-  addPointerRepulsion(squares, squares);
 
   const teamScene = document.querySelector('.team-scene');
   const cubes = teamScene.querySelectorAll('.cubes');

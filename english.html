@@ -8,6 +8,7 @@
   <link rel="stylesheet" href="style.css">
   <script src="content.js" defer></script>
   <script src="main.js" defer></script>
+  <script src="team-physics.js" defer></script>
 </head>
 <body>
   <header class="header" id="home">
@@ -32,6 +33,7 @@
       </div>
       <div id="services" class="ribbon" data-ribbon="services"></div>
     </section>
+    <div class="section-wave purple-to-paper" aria-hidden="true"></div>
     <section class="work" id="work">
       <div class="wrap">
         <h2 class="accent">Selected work</h2>
@@ -40,6 +42,7 @@
       </div>
       <img class="landscape" src="assets/art-11.jpg" alt="" loading="lazy">
     </section>
+    <div class="section-wave paper-to-purple" aria-hidden="true"></div>
     <section class="process" id="process">
       <div class="ribbon reverse" data-ribbon="steps"></div>
       <div class="wrap">
@@ -52,12 +55,14 @@
         </ol>
       </div>
     </section>
+    <div class="section-wave purple-to-paper" aria-hidden="true"></div>
     <section class="team" id="team">
       <div class="wrap">
         <h2 class="accent">Meet the Forough team</h2>
         <p class="section-copy" id="about">[About the team]</p>
         <div class="team-scene"><img class="cubes" src="assets/art-13.png" alt="" loading="lazy"><div id="people" class="people"></div><img class="cubes" src="assets/art-12.png" alt="" loading="lazy"></div>
       </div>
+      <div class="team-squares" aria-hidden="true"></div>
     </section>
     <section class="contact" id="contact">
       <div class="ribbon" data-ribbon="services"></div>
@@ -66,6 +71,7 @@
         <p>Tell us a little about your project to get started.</p>
         <button class="button" id="start" type="button">Work with us</button>
       </div>
+      <div class="contact-column" aria-hidden="true"><span></span></div>
     </section>
   </main>
   <footer>
